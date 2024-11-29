@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Пример работы с WebSocket</h1>
+    <form action="" name="messages">
+        <div class="row">Имя: <input type="text" name="fname" id="n"></div>
+        <div class="row">Текст: <input type="text" name="msg" id="m" autocomplete="off"></div>
+        <div class="row">Текст: <input type="text" name="msg" id="x" autocomplete="off"></div>
+        <div class="row"><input type="submit" value="Поехали"></div>
+    </form>
+    <div id="status"></div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script>
+        $(function(){
+            var socket = io();
+            $('form').submit(function(){
+                socket.emit('chat message', $('#n').val()+":"+$('#m').val()+":"+$('#m').val());
+                $('#m').val('');
+                return false;
+            });
+            socket.on('chat message', function(msq){
+            $('#status').append($('<p>').text(msq));
+            });
+        });
+    </script>
+</body>
+</html>
